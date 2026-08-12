@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MBTI 16型人格专业测评 - 独立测评</title>
+  <meta name="description" content="四个维度精准定位：外向/内向(E/I)·实感/直觉(S/N)·思考/情感(T/F)·判断/感知(J/P)">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Dynamic Background Glow Effects -->
+  <div class="bg-glow-1"></div>
+  <div class="bg-glow-2"></div>
+
+  <!-- App Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <a href="index.html" class="brand-logo">
+        <span>🧠 MBTI 16型人格专业测评</span>
+      </a>
+      <div class="nav-actions">
+        <a href="#小程序://一子一木/0JPDrt84ecI5Gwd" class="btn btn-reward" onclick="openMiniProgramAd(); return false;">🎁 免费下载壁纸/领积分/抽大奖</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Toast Notification Container -->
+  <div id="toastMsg" class="toast-msg">
+    <span>📱</span> <span id="toastText">正在跳转微信小程序【一子一木】...</span>
+  </div>
+
+  <main class="main-container">
+
+    <!-- Standalone Hero Intro Area -->
+    <div id="heroIntro" class="hero-section">
+      <h1 class="hero-title">🧠 MBTI 16型人格专业测评<br><span class="hero-gradient-text">探索你的核心认知模式与职业优势</span></h1>
+      <p class="hero-subtitle">四个维度精准定位：外向/内向 (E/I) · 实感/直觉 (S/N) · 思考/情感 (T/F) · 判断/感知 (J/P)</p>
+
+      <button class="btn btn-primary" onclick="checkAndStartTest('mbti')">
+        🚀 立即开始测试 (5分钟) →
+      </button>
+
+      <!-- 免责合规说明提示词 -->
+      <p style="font-size:0.76rem; color:var(--text-sub); margin-top:0.9rem; margin-bottom:1.5rem;">
+        ⚖️ 免责声明：本测评结果仅供自我探索、娱乐及个人参考使用，不构成任何专业医学诊断、心理治疗或重大人生/法律决策依据。
+      </p>
+    </div>
+
+    <!-- Test Flow Container -->
+    <div id="testFlow" class="test-flow-container" style="display:none;">
+      <div class="test-flow-header">
+        <h2 class="flow-title">MBTI 测评进行中</h2>
+        <span class="progress-text" id="progressText">1 / 12</span>
+      </div>
+
+      <div class="progress-bar-container">
+        <div class="progress-bar-fill" id="progressBarFill"></div>
+      </div>
+
+      <div class="question-card">
+        <div class="question-number" id="questionNumber">QUESTION 1</div>
+        <h3 class="question-text" id="questionText">题目加载中...</h3>
+        
+        <div class="options-list" id="optionsList">
+          <!-- Injected via JS -->
+        </div>
+      </div>
+
+      <div class="flow-controls">
+        <button class="btn btn-outline" id="prevBtn" onclick="prevQuestion()">← 上一题</button>
+      </div>
+
+      <div style="background:rgba(245, 158, 11, 0.06); border:1px solid rgba(245, 158, 11, 0.2); border-radius:var(--radius-md); padding:0.8rem 1.2rem; margin-top:2rem; display:flex; align-items:center; justify-content:space-between; font-size:0.85rem;">
+        <span style="color:var(--text-muted);">🎁 完成测试后自动发放【一子一木】壁纸积分兑换资格</span>
+        <a href="#小程序://一子一木/0JPDrt84ecI5Gwd" onclick="openMiniProgramAd(); return false;" style="color:#fbbf24; font-weight:600; text-decoration:none;">查看小程序 →</a>
+      </div>
+    </div>
+
+    <!-- Result Container -->
+    <div id="resultView" class="result-container" style="display:none;">
+      <div id="resultContainer"></div>
+    </div>
+
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      initStandaloneTest("mbti");
+    });
+  </script>
+</body>
+</html>
