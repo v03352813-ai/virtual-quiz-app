@@ -1769,7 +1769,8 @@ function isTestUnlocked(testId) {
     
     if (search.indexOf('key=') !== -1 || search.indexOf('token=') !== -1 || search.indexOf('paid=1') !== -1 || search.indexOf('code=') !== -1 || search.indexOf('pass=') !== -1) {
       // 若当前页面路径匹配该测评（如 mbti.html 解锁 mbti），则记录本地单品解锁状态
-      if (path.indexOf(testId) !== -1 || path === '/' || path.indexOf('index') !== -1) {
+      var shortId = testId.replace('_signal', '');
+      if (path.indexOf(testId) !== -1 || path.indexOf(shortId) !== -1 || path === '/' || path.indexOf('index') !== -1) {
         if (typeof localStorage !== 'undefined') {
           localStorage.setItem('unlocked_' + testId, 'true');
         }
@@ -1812,7 +1813,7 @@ function showPaywallModal(testId) {
         <h2 class="paywall-title">《${test.title}》</h2>
         
         <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:1.2rem; line-height:1.5;">
-          本测评为付费专享，解锁后当前设备永久免费自测。如果您已在平台下单，请点击下方口令解锁；未购买用户可直接微信在线支付。
+          本测评为付费专享，解锁后当前设备永久免费自测。如果您已在平台下单，请点击下方口令解锁；未购买用户可直接在线支付。
         </p>
 
         <div style="display:flex; flex-direction:column; gap:0.8rem; margin-bottom:0.4rem;">
@@ -1821,7 +1822,7 @@ function showPaywallModal(testId) {
           </button>
 
           <button class="pay-btn-wechat" style="margin-bottom:0;" onclick="simulateWeChatPay('${testId}')">
-            🟢 微信在线支付解锁 (特惠 ¥ 1.99) →
+            🟢 在线支付解锁 (特惠 ¥ 1.99) →
           </button>
         </div>
 
