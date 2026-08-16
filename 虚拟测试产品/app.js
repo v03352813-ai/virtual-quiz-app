@@ -366,7 +366,7 @@ var TEST_DATABASE = {
 
   dating_signal: {
     id: "dating_signal",
-    title: "他到底喜不喜欢你？关系信号深度拆解",
+    title: "他到底喜不喜欢你？关系信号拆解",
     subtitle: "8道题拆解他没说出口的关系信号",
     questions: [
       {
@@ -843,11 +843,11 @@ function initStandaloneTest(testId) {
   var startBtn = heroIntro ? heroIntro.querySelector("button.btn-primary") : null;
   if (startBtn) {
     if (isTestUnlocked(testId)) {
-      startBtn.innerHTML = "🚀 尊享通道 · 立即开始测试 (约3分钟) →";
+      startBtn.innerHTML = "🚀 尊享通道 · 立即开始测试 →";
       startBtn.style.background = "linear-gradient(90deg, #10b981 0%, #059669 100%)";
       startBtn.style.boxShadow = "0 4px 18px rgba(16,185,129,0.4)";
     } else {
-      startBtn.innerHTML = "🚀 开始深度测评 (特惠 ¥1.99) →";
+      startBtn.innerHTML = "🚀 立即开始测评 →";
     }
   }
 }
@@ -1319,7 +1319,7 @@ function calculateAttachmentResult() {
   var container = document.getElementById("resultContainer");
   container.innerHTML = `
     <div class="result-header-card">
-      <span class="result-badge">💕 恋爱依恋底色深度诊断</span>
+      <span class="result-badge">💕 恋爱依恋底色诊断</span>
       <h1 class="result-main-title">${res.emoji} ${mainStyle}</h1>
       <div class="result-subtitle">${res.title}</div>
       <p class="result-summary">${res.summary}</p>
@@ -1408,7 +1408,7 @@ function calculateBatteryResult() {
     </div>
 
     <div class="detail-card" style="margin-bottom:1.2rem;">
-      <h3 class="detail-card-title">🔍 续航状态深度剖析</h3>
+      <h3 class="detail-card-title">🔍 续航状态剖析</h3>
       <p style="font-size:0.95rem; color:var(--text-main); line-height:1.65;">${status.traits}</p>
     </div>
 
@@ -1556,7 +1556,7 @@ function calculateGAD7Result() {
     </div>
 
     <div class="detail-card" style="margin-bottom:1.2rem;">
-      <h3 class="detail-card-title">🧠 情绪状态深度解析</h3>
+      <h3 class="detail-card-title">🧠 情绪状态解析</h3>
       <p style="font-size:0.95rem; color:var(--text-main); line-height:1.65;">${res.analysis}</p>
     </div>
 
@@ -1600,7 +1600,7 @@ function calculateBigFiveResult() {
   var container = document.getElementById("resultContainer");
   container.innerHTML = `
     <div class="result-header-card">
-      <span class="result-badge">🌊 大五人格 (OCEAN) 深度画像报告</span>
+      <span class="result-badge">🌊 大五人格 (OCEAN) 画像报告</span>
       <h1 class="result-main-title">OCEAN Profile</h1>
       <div class="result-subtitle">学术级五大底层性格杠杆剖析</div>
       <p class="result-summary">大五人格模型（Big Five）是心理学界公认最严谨的特质测量体系。它从 5 个独立维度决定了你的行为习惯、决策偏好与情绪模式。</p>
@@ -1666,7 +1666,7 @@ function calculateMBTIResult() {
   var container = document.getElementById("resultContainer");
   container.innerHTML = `
     <div class="result-header-card">
-      <span class="result-badge">MBTI 深度人格诊断报告</span>
+      <span class="result-badge">MBTI 人格诊断报告</span>
       <h1 class="result-main-title">${type}</h1>
       <div class="result-subtitle">${detail.title}</div>
       <p class="result-summary">${detail.summary}</p>
@@ -1797,7 +1797,7 @@ function getMatrixRecommendHtml(currentTestId) {
   var matrixList = [
     { id: "mbti", icon: "🧠", title: "MBTI 16型人格专业测评", desc: "四大维度定位你的核心认知模式与职业优势" },
     { id: "gad7", icon: "😟", title: "GAD-7 焦虑与内耗测评", desc: "评估近两周情绪负荷、压力与内耗等级" },
-    { id: "dating_signal", icon: "💘", title: "关系信号深度拆解", desc: "拆解他没说出口的好感、投入度与关系承诺" },
+    { id: "dating_signal", icon: "💘", title: "关系信号拆解", desc: "拆解他没说出口的好感、投入度与关系承诺" },
     { id: "attachment", icon: "💕", title: "恋爱依恋类型测评", desc: "剖析你的亲密关系底色：安全型还是回避型" },
     { id: "bigfive", icon: "🌊", title: "大五人格专业测评", desc: "学术级 OCEAN 五大核心性格杠杆剖析" },
     { id: "battery", icon: "🔋", title: "社畜精神续航与发疯指数", desc: "测测心理剩余电量与抗压发疯极限" },
@@ -1890,56 +1890,70 @@ function checkAndStartTest(targetTestId) {
   }
 }
 
+var XIANYU_PRODUCT_MAP = {
+  mbti: "1076589148109",
+  attachment: "1073724455977",
+  dating_signal: "1075604557631",
+  gad7: "1073723455394",
+  holland: "1715536481945541",
+  eq: "1715529198897733",
+  battery: "1715523867789893",
+  bigfive: "1715515799029701"
+};
+
 function showPaywallModal(testId) {
   var test = TEST_DATABASE[testId] || TEST_DATABASE['dating_signal'];
   var alipayUrl = "https://qr.alipay.com/fkx18067ydpey7kf-fq7tx54";
   var alipayScheme = "alipays://platformapi/startapp?appId=20000067&url=" + encodeURIComponent(alipayUrl);
+  var xianyuId = XIANYU_PRODUCT_MAP[testId];
+  var xianyuUrl = xianyuId ? "https://h5.m.goofish.com/item?id=" + xianyuId : alipayScheme;
 
   var modalHtml = `
     <div id="paywallModal" class="modal-overlay show">
       <div class="paywall-card" style="max-width:400px; text-align:center; padding:1.8rem 1.4rem;">
         <button class="modal-close-btn" onclick="closePaywallModal()">×</button>
-        <span class="paywall-badge" style="background:rgba(59,130,246,0.15); color:#60a5fa; border-color:rgba(59,130,246,0.35);">⚡ 极速解锁测评</span>
+        <span class="paywall-badge" style="background:rgba(59,130,246,0.15); color:#60a5fa; border-color:rgba(59,130,246,0.35);">⚡ 专属解锁通道</span>
         <h2 class="paywall-title" style="font-size:1.2rem; margin-top:0.5rem; margin-bottom:0.3rem;">《${test.title}》</h2>
         
         <div style="font-size:1.35rem; font-weight:800; color:#fbbf24; margin-bottom:0.8rem;">
           ¥ 1.99 <span style="font-size:0.8rem; font-weight:normal; color:var(--text-sub); text-decoration:line-through;">原价 ¥9.9</span>
         </div>
 
-        <!-- 🚀 手机端一键唤起支付宝 App 按钮 -->
-        <a href="${alipayScheme}" class="btn btn-primary" style="display:flex; justify-content:center; align-items:center; gap:0.4rem; padding:0.75rem 1rem; font-size:0.95rem; margin-bottom:0.9rem; background:linear-gradient(90deg, #0284c7 0%, #2563eb 100%); color:#fff; border-radius:10px; text-decoration:none; box-shadow:0 4px 15px rgba(37,99,235,0.4); font-weight:700;">
-          <span>🚀 手机点此 · 一键唤起支付宝付款</span>
-        </a>
-
-        <!-- 真实支付宝扫码收款区 -->
-        <div style="background:#fff; padding:6px; border-radius:12px; display:inline-block; margin-bottom:0.6rem; box-shadow:0 4px 16px rgba(0,0,0,0.4);">
-          <img src="alipay_qrcode.png" alt="支付宝扫码支付" style="width:180px; height:180px; display:block; border-radius:6px; object-fit:contain;">
-        </div>
-
-        <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:0.9rem; line-height:1.4;">
-          💡 电脑端直接扫码，微信内可截屏后打开支付宝识别
-        </p>
-
-        <!-- 一键放行与解锁大按钮 -->
-        <button class="btn btn-primary" style="width:100%; justify-content:center; padding:0.75rem; font-size:0.92rem; margin-bottom:0.8rem; background:linear-gradient(90deg, #10b981 0%, #059669 100%); color:#fff; border:none; box-shadow:0 4px 16px rgba(16,185,129,0.35);" onclick="confirmPayAndUnlock('${testId}')">
-          ✅ 我已完成支付 · 立即开始测试 →
-        </button>
-
-        <!-- 口令直接输入区（折叠/备用） -->
-        <div style="border-top:1px solid rgba(255,255,255,0.08); padding-top:0.8rem; margin-top:0.3rem;">
-          <a href="javascript:void(0)" onclick="togglePaywallCodeInput()" style="font-size:0.8rem; color:var(--text-sub); text-decoration:underline;">
-            🔑 已有发货卡密/口令？点此输入
-          </a>
-          <div id="paywallCodeInputBox" style="display:none; margin-top:0.6rem;">
-            <div style="display:flex; gap:0.4rem;">
-              <input type="text" id="unlockCodeInput" placeholder="输入发货口令 (如 VIP888)" style="flex:1; padding:0.55rem 0.7rem; background:rgba(0,0,0,0.4); border:1px solid rgba(255,255,255,0.15); border-radius:6px; color:#fff; font-size:0.85rem; outline:none;">
-              <button class="btn btn-outline" style="padding:0.55rem 0.9rem; font-size:0.82rem;" onclick="verifyUnlockCode('${testId}')">验证解锁</button>
-            </div>
+        <!-- 🔑 口令核验区（唯一放行入口 · 彻底封死白嫖） -->
+        <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.12); border-radius:12px; padding:1rem; margin-bottom:1rem; text-align:left;">
+          <label style="font-size:0.82rem; color:var(--text-sub); display:block; margin-bottom:0.5rem; font-weight:600;">
+            🔑 请输入专属发货口令解锁：
+          </label>
+          <div style="display:flex; gap:0.4rem; margin-bottom:0.4rem;">
+            <input type="text" id="unlockCodeInput" placeholder="输入您的8位专属口令 (如 YZYM-XXXX)" style="flex:1; padding:0.6rem 0.8rem; background:rgba(0,0,0,0.5); border:1px solid rgba(255,255,255,0.2); border-radius:8px; color:#fff; font-size:0.9rem; outline:none; text-transform:uppercase;">
+            <button class="btn btn-primary" style="padding:0.6rem 1rem; font-size:0.88rem; background:linear-gradient(90deg, #10b981 0%, #059669 100%); border:none; box-shadow:0 4px 14px rgba(16,185,129,0.35);" onclick="verifyUnlockCode('${testId}')">验证解锁</button>
+          </div>
+          <div style="font-size:0.72rem; color:var(--text-muted);">
+            💡 闲鱼/小红书拍下后系统私信自动秒发该口令
           </div>
         </div>
 
+        <!-- 🛍️ 未获取口令？快速付款获取 -->
+        <div style="border-top:1px solid rgba(255,255,255,0.08); padding-top:0.9rem;">
+          <p style="font-size:0.78rem; color:var(--text-sub); margin-bottom:0.6rem;">
+            尚未获取口令？请通过下方付款获取：
+          </p>
+          
+          <a href="${xianyuUrl}" target="_blank" class="btn btn-primary" style="display:flex; justify-content:center; align-items:center; gap:0.4rem; padding:0.7rem 1rem; font-size:0.9rem; margin-bottom:0.6rem; background:linear-gradient(90deg, #0284c7 0%, #2563eb 100%); color:#fff; border-radius:8px; text-decoration:none; box-shadow:0 4px 15px rgba(37,99,235,0.35); font-weight:700;">
+            <span>🛍️ 点此拍下获取口令 (¥1.99 自动秒发)</span>
+          </a>
+
+          <!-- 真实支付宝扫码收款区 -->
+          <div style="background:#fff; padding:6px; border-radius:10px; display:inline-block; margin-top:0.3rem; box-shadow:0 4px 16px rgba(0,0,0,0.4);">
+            <img src="alipay_qrcode.png" alt="支付宝扫码支付" style="width:130px; height:130px; display:block; border-radius:6px; object-fit:contain;">
+          </div>
+          <p style="font-size:0.72rem; color:var(--text-muted); margin-top:0.3rem;">
+            电脑端扫码支付 1.99 元
+          </p>
+        </div>
+
         <div style="margin-top:0.8rem; font-size:0.72rem; color:var(--text-sub); line-height:1.4;">
-          ⚖️ 虚拟数字化内容，支付后自动解锁，感谢您的认可与支持！
+          ⚖️ 虚拟数字化内容，口令核验通过后自动解锁，感谢支持！
         </div>
       </div>
     </div>
