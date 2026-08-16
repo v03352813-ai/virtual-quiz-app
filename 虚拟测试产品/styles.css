@@ -12,11 +12,78 @@
   --accent-emerald: #10b981;
   --accent-cyan: #06b6d4;
 
+  --glow-1: rgba(99, 102, 241, 0.2);
+  --glow-2: rgba(236, 72, 153, 0.15);
+
   --radius-sm: 8px;
   --radius-md: 14px;
   --radius-lg: 20px;
 
   --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* 🔮 MBTI 16型人格 - 赛博幻紫 */
+body.theme-mbti {
+  --accent-primary: #8b5cf6;
+  --accent-secondary: #06b6d4;
+  --glow-1: rgba(139, 92, 246, 0.26);
+  --glow-2: rgba(6, 182, 212, 0.18);
+}
+
+/* 🌊 GAD-7 焦虑与内耗 - 疗愈冰川蓝绿 */
+body.theme-gad7 {
+  --accent-primary: #0ea5e9;
+  --accent-secondary: #10b981;
+  --glow-1: rgba(14, 165, 233, 0.26);
+  --glow-2: rgba(16, 185, 129, 0.18);
+}
+
+/* 💕 恋爱依恋类型 - 晚樱玫瑰粉 */
+body.theme-attachment {
+  --accent-primary: #f43f5e;
+  --accent-secondary: #a855f7;
+  --glow-1: rgba(244, 63, 94, 0.26);
+  --glow-2: rgba(168, 85, 247, 0.18);
+}
+
+/* 💘 TA到底喜不喜欢你 - 珊瑚绯红与暖橘 */
+body.theme-dating {
+  --accent-primary: #ec4899;
+  --accent-secondary: #f97316;
+  --glow-1: rgba(236, 72, 153, 0.26);
+  --glow-2: rgba(249, 115, 22, 0.18);
+}
+
+/* 🌌 大五人格 OCEAN - 深邃皇家蓝 */
+body.theme-bigfive {
+  --accent-primary: #3b82f6;
+  --accent-secondary: #0ea5e9;
+  --glow-1: rgba(59, 130, 246, 0.26);
+  --glow-2: rgba(14, 165, 233, 0.18);
+}
+
+/* ⚡ 社畜精神续航与发疯 - 高能赛博荧光黄 */
+body.theme-battery {
+  --accent-primary: #eab308;
+  --accent-secondary: #f97316;
+  --glow-1: rgba(234, 179, 8, 0.26);
+  --glow-2: rgba(249, 115, 22, 0.18);
+}
+
+/* 🛡️ 高情商与防PUA - 翡翠防御绿 */
+body.theme-eq {
+  --accent-primary: #10b981;
+  --accent-secondary: #06b6d4;
+  --glow-1: rgba(16, 185, 129, 0.26);
+  --glow-2: rgba(6, 182, 212, 0.18);
+}
+
+/* 🧭 霍兰德职业兴趣 - 极光蔚蓝与金 */
+body.theme-holland {
+  --accent-primary: #06b6d4;
+  --accent-secondary: #6366f1;
+  --glow-1: rgba(6, 182, 212, 0.26);
+  --glow-2: rgba(99, 102, 241, 0.18);
 }
 
 * {
@@ -40,9 +107,9 @@ body {
   position: fixed;
   top: -10%;
   left: 20%;
-  width: 450px;
-  height: 450px;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, var(--glow-1) 0%, rgba(0, 0, 0, 0) 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -51,9 +118,9 @@ body {
   position: fixed;
   bottom: 10%;
   right: 15%;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(236, 72, 153, 0.12) 0%, rgba(0, 0, 0, 0) 70%);
+  width: 550px;
+  height: 550px;
+  background: radial-gradient(circle, var(--glow-2) 0%, rgba(0, 0, 0, 0) 70%);
   pointer-events: none;
   z-index: 0;
 }
@@ -983,44 +1050,7 @@ body {
 }
 
 
-/* 🌟 High-Impact Wallpaper Banner Card Layout */
+/* 🌟 High-Impact Wallpaper Banner Card (Hidden on frontend landing pages) */
 .ad-wallpaper-card {
-  background: linear-gradient(135deg, rgba(245, 158, 11, 0.08) 0%, rgba(30, 27, 75, 0.45) 100%);
-  border: 1px solid rgba(245, 158, 11, 0.35);
-  border-radius: var(--radius-lg);
-  padding: 1.2rem 1.6rem;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: space-between !important;
-  gap: 1.5rem !important;
-  margin-top: 1.8rem;
-  margin-bottom: 1.5rem;
-  backdrop-filter: blur(12px);
-  flex-wrap: nowrap !important;
-}
-
-.ad-wallpaper-card .ad-content-left {
-  display: flex !important;
-  align-items: center !important;
-  gap: 1.4rem !important;
-  flex: 1;
-  min-width: 0;
-}
-
-.ad-wallpaper-card .btn-reward {
-  flex-shrink: 0 !important;
-  white-space: nowrap !important;
-  margin-top: 0 !important;
-}
-
-@media (max-width: 768px) {
-  .ad-wallpaper-card {
-    flex-direction: column !important;
-    align-items: stretch !important;
-    gap: 1rem !important;
-  }
-  .ad-wallpaper-card .btn-reward {
-    width: 100% !important;
-    justify-content: center !important;
-  }
+  display: none !important;
 }
