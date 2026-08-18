@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>七宗罪系统 - 商业化运营与卡密管理后台</title>
+    <link rel="stylesheet" href="assets/css/style.css">
+    <style>
+        .admin-box {
+            max-width: 780px !important;
+            padding: 30px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            color: #d1d5db;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        .form-control {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 14px;
+            color: #ffffff;
+            font-size: 0.95rem;
+            outline: none;
+        }
+        .form-control:focus {
+            border-color: var(--gold);
+        }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+        .stat-num {
+            font-family: var(--font-mono);
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--gold);
+            margin-top: 4px;
+        }
+    </style>
+</head>
+<body style="padding: 20px 10px;">
+
+<!-- 登录验证层 -->
+<div id="login-panel" class="app-container admin-box glass-card gold-border" style="margin: 40px auto; text-align: center;">
+    <div style="font-size: 3rem; margin-bottom: 12px;">🛡️</div>
+    <h2 class="gothic-title" style="font-size: 1.6rem; margin-bottom: 8px;">管理员认证</h2>
+    <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 24px;">请输入后台管理密码进入控制台</p>
+
+    <div style="max-width: 320px; margin: 0 auto;">
+        <input type="password" id="admin-pass" class="form-control" placeholder="默认初始密码: admin888" style="text-align: center; margin-bottom: 16px;">
+        <button id="btn-admin-login" class="btn-mystic">登录控制台</button>
+    </div>
+</div>
+
+<!-- 主控制台 -->
+<div id="dashboard-panel" class="app-container admin-box" style="display: none; margin: 20px auto;">
+    
+    <!-- 头部 -->
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid var(--border-color); padding-bottom: 16px;">
+        <div>
+            <h1 class="gothic-title" style="font-size: 1.4rem;">七宗罪测试 · 商业化管理后台</h1>
+            <p style="font-size: 0.82rem; color: var(--text-dim);">掌控运营模式、一键批量生成卡密并导出用于微店/发卡网自动发货</p>
+        </div>
+        <a href="index.html" target="_blank" class="btn-secondary" style="width: auto; padding: 8px 16px; font-size: 0.85rem;">
+            预览前台 ➔
+        </a>
+    </div>
+
+    <!-- 统计看板 -->
+    <div class="stat-grid">
+        <div class="stat-card">
+            <div style="color: var(--text-muted); font-size: 0.85rem;">已生成卡密总数</div>
+            <div id="stat-total-keys" class="stat-num">0</div>
+        </div>
+        <div class="stat-card">
+            <div style="color: #10b981; font-size: 0.85rem;">已核销使用</div>
+            <div id="stat-used-keys" class="stat-num" style="color: #10b981;">0</div>
+        </div>
+        <div class="stat-card">
+            <div style="color: var(--purple); font-size: 0.85rem;">待出售库存</div>
+            <div id="stat-unused-keys" class="stat-num" style="color: #a78bfa;">0</div>
+        </div>
+    </div>
+
+    <!-- 模块 1：运营模式切换 -->
+    <div class="glass-card" style="margin-bottom: 24px;">
+        <h3 style="color: var(--gold); font-size: 1.1rem; font-weight: 700; margin-bottom: 14px;">⚙️ 运营商业模式设定</h3>
+        
+        <div class="form-group">
+            <label>前台运行模式：</label>
+            <select id="cfg-mode" class="form-control">
+                <option value="license">🔐 卡密解锁模式（用户需输入卡密查看千字报告，用于变现搞钱）</option>
+                <option value="free">🎁 纯免费引流模式（所有用户直接免费看完整报告，用于快速吸粉）</option>
+            </select>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="form-group">
+                <label>报告展示价格文案：</label>
+                <input type="text" id="cfg-price" class="form-control" placeholder="如：限时特惠 ￥9.9">
+            </div>
+            <div class="form-group">
+                <label>客服微信 / 公众号提示：</label>
+                <input type="text" id="cfg-wx" class="form-control" placeholder="如：soul_test_vip">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>购买卡密跳转链接（微店 / 发卡网 / 小红书店铺）：</label>
+            <input type="text" id="cfg-url" class="form-control" placeholder="https://...">
+        </div>
+
+        <button id="btn-save-config" class="btn-mystic" style="width: auto; padding: 10px 24px; font-size: 0.9rem;">
+            保存配置生效
+        </button>
+    </div>
+
+    <!-- 模块 2：卡密批量生成与导出 -->
+    <div class="glass-card" style="margin-bottom: 24px;">
+        <h3 style="color: var(--gold); font-size: 1.1rem; font-weight: 700; margin-bottom: 14px;">📦 批量生成卡密并导出</h3>
+        <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 14px;">
+            生成的卡密采用离线哈希算法与校验和，导出为 TXT 文本后可直接批量导入微店、淘宝、闲鱼或自动发卡平台！
+        </p>
+
+        <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 16px;">
+            <select id="gen-count" class="form-control" style="max-width: 160px;">
+                <option value="10">生成 10 张卡密</option>
+                <option value="50" selected>生成 50 张卡密</option>
+                <option value="100">生成 100 张卡密</option>
+                <option value="500">生成 500 张卡密</option>
+            </select>
+            <button id="btn-generate-batch" class="btn-mystic" style="width: auto; padding: 10px 20px;">
+                ⚡ 立即批量生成
+            </button>
+            <button id="btn-export-txt" class="btn-secondary" style="width: auto; padding: 10px 20px;">
+                📥 导出为 TXT 文件
+            </button>
+        </div>
+
+        <div class="form-group">
+            <label>最新生成的卡密预览列表：</label>
+            <textarea id="output-generated-keys" class="form-control" rows="6" readonly style="font-family: var(--font-mono); font-size: 0.85rem; color: #a78bfa;" placeholder="点击批量生成后，卡密将在此显示..."></textarea>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+            <button id="btn-clear-pool" style="background: none; border: 1px solid rgba(239, 68, 68, 0.4); color: var(--crimson); font-size: 0.8rem; padding: 6px 14px; border-radius: 6px; cursor: pointer;">
+                🗑️ 清空所有卡密库
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<!-- 脚本 -->
+<script src="assets/js/license.js"></script>
+<script>
+    const ADMIN_PASS = 'admin888';
+
+    const loginPanel = document.getElementById('login-panel');
+    const dashboardPanel = document.getElementById('dashboard-panel');
+    const btnLogin = document.getElementById('btn-admin-login');
+    const inputPass = document.getElementById('admin-pass');
+
+    // 登录校验
+    btnLogin.addEventListener('click', () => {
+        if (inputPass.value === ADMIN_PASS) {
+            loginPanel.style.display = 'none';
+            dashboardPanel.style.display = 'block';
+            loadAdminData();
+        } else {
+            alert('密码错误！默认初始密码为 admin888');
+        }
+    });
+
+    // 渲染后台数据
+    function loadAdminData() {
+        const config = getLicenseConfig();
+        document.getElementById('cfg-mode').value = config.mode || 'license';
+        document.getElementById('cfg-price').value = config.priceText || '限时特惠 ￥9.9';
+        document.getElementById('cfg-wx').value = config.serviceWx || 'soul_test_vip';
+        document.getElementById('cfg-url').value = config.buyUrl || '';
+
+        updateStats();
+    }
+
+    // 统计刷新
+    function updateStats() {
+        const pool = getGeneratedKeysPool();
+        const keys = Object.values(pool);
+        const total = keys.length;
+        const used = keys.filter(k => k.used).length;
+        const unused = total - used;
+
+        document.getElementById('stat-total-keys').textContent = total;
+        document.getElementById('stat-used-keys').textContent = used;
+        document.getElementById('stat-unused-keys').textContent = unused;
+    }
+
+    // 保存配置
+    document.getElementById('btn-save-config').addEventListener('click', () => {
+        const config = getLicenseConfig();
+        config.mode = document.getElementById('cfg-mode').value;
+        config.priceText = document.getElementById('cfg-price').value;
+        config.serviceWx = document.getElementById('cfg-wx').value;
+        config.buyUrl = document.getElementById('cfg-url').value;
+
+        saveLicenseConfig(config);
+        alert('配置已成功保存生效！');
+    });
+
+    // 批量生成
+    let latestGenerated = [];
+    document.getElementById('btn-generate-batch').addEventListener('click', () => {
+        const count = parseInt(document.getElementById('gen-count').value, 10);
+        latestGenerated = generateBatchKeys(count);
+        document.getElementById('output-generated-keys').value = latestGenerated.join('\n');
+        updateStats();
+        alert(`成功批量生成 ${count} 张带防伪特征码的卡密！`);
+    });
+
+    // 导出 TXT
+    document.getElementById('btn-export-txt').addEventListener('click', () => {
+        const pool = getGeneratedKeysPool();
+        const unusedKeys = Object.values(pool).filter(k => !k.used).map(k => k.key);
+
+        if (unusedKeys.length === 0) {
+            alert('当前没有可导出的未使用卡密，请先批量生成！');
+            return;
+        }
+
+        const textContent = unusedKeys.join('\r\n');
+        const blob = new Blob([textContent], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `七宗罪测试卡密库存_${unusedKeys.length}张_${new Date().toISOString().slice(0,10)}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
+
+    // 清空卡密池
+    document.getElementById('btn-clear-pool').addEventListener('click', () => {
+        if (confirm('确定要清空所有卡密记录吗？此操作不可逆！')) {
+            localStorage.removeItem('sin_used_license_keys_v1');
+            updateStats();
+            document.getElementById('output-generated-keys').value = '';
+            alert('卡密库已清空！');
+        }
+    });
+</script>
+
+</body>
+</html>
