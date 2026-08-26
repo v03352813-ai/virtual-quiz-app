@@ -8,10 +8,10 @@ var MINI_PROGRAM_LINK = "#小程序://一子一木/0JPDrt84ecI5Gwd";
 (function() {
   if (typeof window !== 'undefined') {
     window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-    if (!document.querySelector('script[src*="/_vercel/insights/script.js"]')) {
+    if (!document.querySelector('script[src*="vercel-scripts"]') && !document.querySelector('script[src*="/_vercel/insights"]')) {
       var vaScript = document.createElement('script');
       vaScript.defer = true;
-      vaScript.src = '/_vercel/insights/script.js';
+      vaScript.src = 'https://va.vercel-scripts.com/v1/script.js';
       document.head.appendChild(vaScript);
     }
   }
