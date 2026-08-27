@@ -386,7 +386,7 @@ function getHellVisitorTitle(percentages, ranking) {
         'greed_pride': { title: '地狱来了一位【深渊幕后财阀】', tagline: '“万物皆有标价，掌控了资本就掌控了人性的生杀大权”' },
         'greed_envy': { title: '地狱来了一位【资本掠食者】', tagline: '“别人的富足是你心中的警钟，搞钱的野心永不满足”' },
         'greed_wrath': { title: '地狱来了一位【铁血收割机】', tagline: '“动我利益者虽远必诛，在名利场上杀伐决断”' },
-        'greed_sloth': { title: '地狱来了一位【躺赢精算师】', tagline: '“用最少的体力撬动最大的利益，只想提前财富自由退休”' },
+        'greed_sloth': { title: '地狱来了一位【笑面虎】', tagline: '“表面人畜无害佛系摆烂，暗地里精算利益寸步不让”' },
         'greed_gluttony': { title: '地狱来了一位【吞金巨兽】', tagline: '“既要富可敌国又要极致享受，物质与感官的双重饕餮”' },
         'greed_lust': { title: '地狱来了一位【名利场猎心人】', tagline: '“用金钱构筑欲望壁垒，把浪漫明码标价作为博弈筹码”' },
 
@@ -408,7 +408,7 @@ function getHellVisitorTitle(percentages, ranking) {
 
         // --- 5. 懒惰为主 (Sloth Dominant: 贝尔芬格) ---
         'sloth_pride': { title: '地狱来了一位【厌世魔尊】', tagline: '“看透世俗愚昧直接摆烂，躺在地府门口睡觉的避世之神”' },
-        'sloth_greed': { title: '地狱来了一位【佛系摸鱼王】', tagline: '“以最低功耗换取稳定生存，能躺着拿到的一分钱也不多使劲”' },
+        'sloth_greed': { title: '地狱来了一位【笑面虎】', tagline: '“表面人畜无害佛系摆烂，暗地里精算利益寸步不让”' },
         'sloth_wrath': { title: '地狱来了一位【冷暴力刺客】', tagline: '“极度厌恶麻烦，逼急了直接用毁灭性断联让你人间蒸发”' },
         'sloth_envy': { title: '地狱来了一位【酸涩空想家】', tagline: '“内心戏比谁都多，行动力却永远卡在明天再说的循环里”' },
         'sloth_gluttony': { title: '地狱来了一位【极乐摆烂肥宅】', tagline: '“只要美食与被窝管够，三界兴亡与我毫无瓜葛”' },

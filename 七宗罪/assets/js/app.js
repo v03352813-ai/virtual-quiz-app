@@ -186,6 +186,25 @@ function initEvents() {
 }
 
 function previewSpecificSin(sinId) {
+    let dominantId = sinId;
+    let secondaryId = 'sloth';
+
+    if (sinId === 'tiger') {
+        dominantId = 'greed';
+        secondaryId = 'sloth';
+    } else {
+        const secondaryMap = {
+            pride: 'greed',
+            greed: 'sloth',   // 贪婪 + 懒惰 ➔ 触发爆款【笑面虎】
+            lust: 'gluttony',
+            envy: 'pride',
+            wrath: 'pride',
+            gluttony: 'lust',
+            sloth: 'greed'    // 懒惰 + 贪婪 ➔ 触发爆款【笑面虎】
+        };
+        secondaryId = secondaryMap[sinId] || 'greed';
+    }
+
     const defaultScores = {
         pride: 42,
         greed: 38,
@@ -195,20 +214,8 @@ function previewSpecificSin(sinId) {
         wrath: 45,
         sloth: 36
     };
-    defaultScores[sinId] = 98; // 主罪 98%
-    
-    // 次罪自动匹配
-    const secondaryMap = {
-        pride: 'greed',
-        greed: 'pride',
-        lust: 'gluttony',
-        envy: 'pride',
-        wrath: 'pride',
-        gluttony: 'lust',
-        sloth: 'greed'
-    };
-    const secondaryId = secondaryMap[sinId] || 'greed';
-    defaultScores[secondaryId] = 82;
+    defaultScores[dominantId] = 98; // 主罪 98%
+    defaultScores[secondaryId] = 85; // 次罪 85%
 
     const sorted = Object.keys(defaultScores).map(k => ({
         id: k,
@@ -218,30 +225,30 @@ function previewSpecificSin(sinId) {
 
     const hellVisitor = (typeof getHellVisitorTitle === 'function') 
         ? getHellVisitorTitle(defaultScores, sorted)
-        : { title: '地狱来了一位【深渊主宰】', tagline: '直面真实罪印' };
+        : { title: '地狱来了一位【笑面虎】', tagline: '“表面人畜无害佛系摆烂，暗地里精算利益寸步不让”' };
 
     state.calculationResult = {
         percentages: defaultScores,
         dominant: {
-            id: sinId,
+            id: dominantId,
             score: 98,
-            meta: SINS_META[sinId]
+            meta: SINS_META[dominantId]
         },
         secondary: {
             id: secondaryId,
-            score: 82,
+            score: 85,
             meta: SINS_META[secondaryId]
         },
-        judgeAvatar: JUDGE_AVATARS[sinId],
+        judgeAvatar: JUDGE_AVATARS[dominantId],
         hellVisitor: hellVisitor,
         ranking: sorted,
-        serialCode: `SIN-2026-${sinId.toUpperCase()}-888`
+        serialCode: `SIN-2026-${dominantId.toUpperCase()}-888`
     };
 
     switchView('result');
     renderResultView();
 
-    // 滚动到顶部方便查看
+    // 滚动到顶部方便录屏
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -902,9 +909,14 @@ async function checkUrlParams() {
         }
     }
 
-    const previewSin = params.get('preview') || params.get('sin');
+    const previewSin = params.get('preview') || params.get('sin') || params.get('demo');
     if (previewSin && typeof previewSpecificSin === 'function') {
-        previewSpecificSin(previewSin.toLowerCase());
+        setReportUnlocked(); // 演示/录屏模式下自动解锁完整权限
+        let sinTarget = previewSin.toLowerCase();
+        if (sinTarget === 'tiger' || sinTarget === '笑面虎') {
+            sinTarget = 'tiger';
+        }
+        previewSpecificSin(sinTarget);
     }
 }
 
