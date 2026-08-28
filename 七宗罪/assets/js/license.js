@@ -157,25 +157,30 @@ async function verifyLicenseKey(inputKey) {
         };
     }
 
-    // 4. 检查动态算法卡密格式 (XHS-XXXX-XXXX-XXXX / XY-XXXX-XXXX-XXXX / SIN-XXXX-XXXX-XXXX)
-    if (/^(XHS|XY|SIN)-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(key)) {
+    // 4. 检查动态算法卡密格式 (XHS/XY/SIN/ONCE/VIP/ONE/TEST-XXXX-XXXX-XXXX)
+    if (/^(XHS|XY|SIN|ONCE|VIP|ONE|TEST)-[A-Z0-9]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(key)) {
         if (validateAlgorithmKey(key)) {
+            const channelPrefix = key.split('-')[0];
+            const isOneTime = (channelPrefix === 'ONCE' || channelPrefix === 'ONE' || channelPrefix === 'TEST');
+            const allowedDevices = isOneTime ? 1 : maxDevices;
+
             // 记录到本地已使用卡密池并绑定设备
             const pool = getGeneratedKeysPool();
             const boundDevices = [deviceId];
             pool[key] = {
                 key: key,
-                channel: key.split('-')[0],
+                channel: channelPrefix,
                 createdAt: new Date().toISOString(),
                 used: true,
                 usedAt: new Date().toISOString(),
-                boundDevices: boundDevices
+                boundDevices: boundDevices,
+                isOneTime: isOneTime
             };
             localStorage.setItem(USED_KEYS_STORAGE_KEY, JSON.stringify(pool));
             setReportUnlocked();
             return {
                 success: true,
-                message: `卡密激活成功！已绑定本设备 (允许最多 ${maxDevices} 台设备)`
+                message: isOneTime ? '✨ 专属一次性体验码激活成功！已为您解锁本次完整卷宗' : `卡密激活成功！已绑定本设备 (允许最多 ${maxDevices} 台设备)`
             };
         }
     }
@@ -184,7 +189,7 @@ async function verifyLicenseKey(inputKey) {
 }
 
 /**
- * 动态防伪哈希算法校验（支持多渠道前缀 XHS / XY / SIN）
+ * 动态防伪哈希算法校验（支持多渠道前缀 XHS / XY / SIN / ONCE / VIP / ONE / TEST）
  */
 function validateAlgorithmKey(key) {
     const parts = key.split('-');
@@ -203,10 +208,10 @@ function validateAlgorithmKey(key) {
 
 /**
  * 生成单条带渠道前缀与防伪算法的卡密
- * @param {string} channel 渠道前缀：'XHS' | 'XY' | 'SIN'
+ * @param {string} channel 渠道前缀：'XHS' | 'XY' | 'SIN' | 'ONCE' | 'VIP' | 'ONE' | 'TEST'
  */
 function generateSingleKey(channel = 'XHS') {
-    const validChannels = ['XHS', 'XY', 'SIN'];
+    const validChannels = ['XHS', 'XY', 'SIN', 'ONCE', 'VIP', 'ONE', 'TEST'];
     const prefix = validChannels.includes(channel.toUpperCase()) ? channel.toUpperCase() : 'XHS';
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
     const randStr = (len) => Array.from({ length: len }, () => chars[Math.floor(Math.random() * chars.length)]).join('');
@@ -226,12 +231,13 @@ function generateSingleKey(channel = 'XHS') {
 /**
  * 批量生成指定渠道的卡密
  * @param {number} count 数量
- * @param {string} channel 渠道: 'XHS' | 'XY' | 'SIN'
+ * @param {string} channel 渠道: 'XHS' | 'XY' | 'SIN' | 'ONCE' | 'VIP' | 'ONE' | 'TEST'
  */
 function generateBatchKeys(count = 50, channel = 'XHS') {
     const pool = getGeneratedKeysPool();
     const result = [];
-    const prefix = ['XHS', 'XY', 'SIN'].includes(channel.toUpperCase()) ? channel.toUpperCase() : 'XHS';
+    const validChannels = ['XHS', 'XY', 'SIN', 'ONCE', 'VIP', 'ONE', 'TEST'];
+    const prefix = validChannels.includes(channel.toUpperCase()) ? channel.toUpperCase() : 'XHS';
     
     for (let i = 0; i < count; i++) {
         const key = generateSingleKey(prefix);
