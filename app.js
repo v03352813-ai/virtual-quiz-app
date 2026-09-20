@@ -2053,9 +2053,9 @@ var TEST_CODE_DATABASE = {
     name: "MBTI 16型人格"
   },
   gad7: {
-    primaryCode: "YZYM-3715",
+    primaryCode: "YZYM-5829",
     prefixes: ["GAD", "CALM", "ANX"],
-    staticCodes: ["YZYM-3715", "GAD888", "GAD999", "GAD2026", "CALM888"],
+    staticCodes: ["YZYM-5829", "GAD888", "GAD999", "GAD2026", "CALM888"],
     name: "GAD-7 焦虑自评"
   },
   attachment: {
